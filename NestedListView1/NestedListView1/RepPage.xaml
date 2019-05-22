@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" x:Name="top1" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:conv="clr-namespace:NestedListView1.Converters" xmlns:rep="clr-namespace:NestedListView1.Controls" x:Class="NestedListView1.RepPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <conv:NegateBooleanConverter x:Key="inverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout>
+            <rep:RepeaterView ItemsSource="{Binding Items}" x:Name="top2">
+                <rep:RepeaterView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout>
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={x:Reference top1}, Path=BindingContext.ShowHideStack}" CommandParameter="{Binding .}" NumberOfTapsRequired="1" />
+                            </StackLayout.GestureRecognizers>
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Padding="2">
+                                <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" HeightRequest="50" BackgroundColor="Silver">
+                                    <Label Text="{Binding Name}" VerticalTextAlignment="Center" HorizontalOptions="Start" Margin="5,0,0,0" />
+                                    <Image IsVisible="{Binding IsVisible, Converter={StaticResource inverter}}" Source="{rep:ImageResource NestedListView1.Images.DownArrow.png}" HeightRequest="25" WidthRequest="25" HorizontalOptions="End" />
+                                    <Image IsVisible="{Binding IsVisible}" Source="{rep:ImageResource NestedListView1.Images.UpArrow.png}" HeightRequest="25" WidthRequest="25" HorizontalOptions="End" />
+                                </StackLayout>
+                            </StackLayout>
+                            <StackLayout IsVisible="{Binding IsVisible}">
+                                <rep:RepeaterView ItemsSource="{Binding Hotels}">
+                                    <rep:RepeaterView.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackLayout>
+                                                <StackLayout.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding Source={x:Reference top1}, Path=BindingContext.ShowHideStack}" CommandParameter="{Binding .}" NumberOfTapsRequired="1" />
+                                                </StackLayout.GestureRecognizers>
+                                                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Padding="2">
+                                                    <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" HeightRequest="30" BackgroundColor="Olive">
+                                                        <Label Text="{Binding Name}" Margin="15,0,0,0" VerticalTextAlignment="Center"/>
+                                                        <Image IsVisible="{Binding IsVisible, Converter={StaticResource inverter}}" Source="{rep:ImageResource NestedListView1.Images.DownArrow.png}" HeightRequest="25" WidthRequest="25" />
+                                                        <Image IsVisible="{Binding IsVisible}" Source="{rep:ImageResource NestedListView1.Images.UpArrow.png}" HeightRequest="25" WidthRequest="25" />
+                                                    </StackLayout>
+                                                </StackLayout>
+                                                <StackLayout IsVisible="{Binding IsVisible}">
+                                                    <rep:RepeaterView ItemsSource="{Binding Room}">
+                                                        <rep:RepeaterView.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <Label Text="{Binding Name}" VerticalTextAlignment="Center" Margin="25,0,0,0" />
+                                                            </DataTemplate>
+                                                        </rep:RepeaterView.ItemTemplate>
+                                                    </rep:RepeaterView>
+                                                </StackLayout>
+                                            </StackLayout>
+                                        </DataTemplate>
+                                    </rep:RepeaterView.ItemTemplate>
+                                </rep:RepeaterView>
+                            </StackLayout>
+                        </StackLayout>
+                    </DataTemplate>
+                </rep:RepeaterView.ItemTemplate>
+            </rep:RepeaterView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
